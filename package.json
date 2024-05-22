@@ -1,0 +1,14 @@
+{
+    "name": "gh-spam-check",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "octokit": "^2.0.14",
+        "@octokit/webhooks-types": "6.11.0"
+    },
+    "author": "",
+    "license": "ISC"
+}

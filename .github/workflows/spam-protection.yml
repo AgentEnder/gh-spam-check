@@ -1,0 +1,40 @@
+name: Spam Detection
+
+on:
+  discussion:
+    types: [created]
+
+permissions:
+  issues: write
+  pull-requests: write
+  discussions: write
+
+jobs:
+  check-spam:
+    runs-on: ubuntu-latest
+    name: Spam Check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.2
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      # Save the event to a json file for use inside script:
+      - name: Save event to file
+        run: echo '${{ toJson(github.event) }}' > event.json
+
+      - name: Install packages
+        working-directory: ./scripts/spam-check
+        run: bun install
+
+      - name: Collect Issue Data
+        id: collect
+        run: bun run index.ts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
